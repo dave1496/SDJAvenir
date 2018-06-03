@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Container, Content, Text, Toast } from 'native-base';
 
 // FB Login
-// import { FBLoginManager } from 'react-native-facebook-login';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
 // Firebase
 import firebase from '../../general/firebase/';
@@ -50,17 +50,23 @@ class Login extends Component {
 
     handleFbButtonPress() {
         this.setState({ loading: true });
-        // FBLoginManager.loginWithPermissions(["email", "public_profile"], (error, data) => {
-        //     if (error) {
-        //         this.showError(error.message);
-        //     } else {
-        //         const { token } = data.credentials;
-        //         const credential = firebase.auth.FacebookAuthProvider.credential(token);
-        //         firebase.auth().signInWithCredential(credential)
-        //         .then(user => this.setState({ loading: false }))
-        //         .catch(error => this.showError(error.message));
-        //     }
-        // });
+        LoginManager.logInWithReadPermissions(["email", "public_profile"]).then(
+            result => {
+                if (result.isCancelled) this.showError("Connexion annulée");
+                else {
+                    AccessToken.getCurrentAccessToken().then(data => {
+                        const { accessToken } = data;
+                        const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
+                        firebase.auth().signInAndRetrieveDataWithCredential(credential)
+                        .then(user => this.setState({ loading: false }))
+                        .catch(error => this.showError(`Erreur de connexion: ${error.message}`));
+                    });
+                }
+            },
+            error => {
+                this.showError(`Connexion échouée avec le message: ${error}`);
+            }
+        );
     }
 
     handleSignUp() {
