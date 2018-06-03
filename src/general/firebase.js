@@ -2,14 +2,15 @@
 import firebase from 'firebase';
 
 // Secrets
-import { apiKey } from './secrets';
+import { FIREBASE_API_KEY as apiKey } from '../config/secrets';
 
 firebase.initializeApp({
   apiKey,
-  authDomain: "lesilencedesjustes-df85a.firebaseapp.com",
-  databaseURL: "https://lesilencedesjustes-df85a.firebaseio.com",
-  storageBucket: "lesilencedesjustes-df85a.appspot.com",
-  messagingSenderId: "1073646660984",
+  authDomain: "sdjavenir-c226c.firebaseapp.com",
+  databaseURL: "https://sdjavenir-c226c.firebaseio.com",
+  projectId: "sdjavenir-c226c",
+  storageBucket: "sdjavenir-c226c.appspot.com",
+  messagingSenderId: "599059477459",
 });
 
 export default firebase;

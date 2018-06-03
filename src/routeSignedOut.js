@@ -4,9 +4,9 @@ import { StackNavigator } from 'react-navigation';
 
 // Screens
 import Login from './views/login/';
-import SignUp from './views/signup/';
-import Forgot from './views/forgot/';
-import Confirm from './views/confirm/';
+// import SignUp from './views/signup/';
+// import Forgot from './views/forgot/';
+// import Confirm from './views/confirm/';
 
 // Header
 import Header from './general/header/';
