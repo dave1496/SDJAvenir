@@ -60,8 +60,8 @@ class App extends Component {
             <Root onLayout={this.onLayout}>
             {
                 this.state.loading ? <Spinner color='blue' /> :
-                this.state.user ?
-                <p /> :
+                // this.state.user ?
+                // null :
                 <SignedOut dimensions={this.state.dimensions} />
             }
             </Root>

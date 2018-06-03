@@ -6,4 +6,4 @@ import { AppRegistry } from 'react-native';
 import App from './src/';
 
 // AppRegistry
-AppRegistry.registerComponent('SDJAvenir', App);
+AppRegistry.registerComponent('SDJAvenir', () => App);
