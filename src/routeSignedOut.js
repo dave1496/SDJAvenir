@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation';
 import Login from './views/login/';
 import SignUp from './views/signup/';
 import Forgot from './views/forgot/';
-// import Confirm from './views/confirm/';
+import Confirm from './views/confirm/';
 
 // Header
 import Header from './general/header/';
@@ -31,12 +31,12 @@ const RootNavigator = StackNavigator(
                 header: () => <Header navigation={navigation} back />,
             }),
         },
-        // Confirm: {
-        //     screen: Confirm,
-        //     navigationOptions: ({ navigation }) => ({
-        //         header: () => <Header navigation={navigation} back />,
-        //     }),
-        // },
+        Confirm: {
+            screen: Confirm,
+            navigationOptions: ({ navigation }) => ({
+                header: () => <Header navigation={navigation} back />,
+            }),
+        },
     },
     {
         initialRouteName: "Login",
