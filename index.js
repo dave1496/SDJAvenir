@@ -1,4 +1,9 @@
+// React
+import React from 'react';
 import { AppRegistry } from 'react-native';
-import App from './App';
 
+// Local
+import App from './src/';
+
+// AppRegistry
 AppRegistry.registerComponent('SDJAvenir', () => App);
