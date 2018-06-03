@@ -7,7 +7,7 @@ import { Root, Spinner } from 'native-base';
 import firebase from './general/firebase/';
 
 // Routes
-// import SignedIn from './routeSignedIn';
+import SignedIn from './routeSignedIn';
 import SignedOut from './routeSignedOut';
 
 class App extends Component {
@@ -55,13 +55,12 @@ class App extends Component {
     }
 
     render() {
-        // console.ignoredYellowBox = [ 'Setting a timer' ];
         return (
             <Root onLayout={this.onLayout}>
             {
                 this.state.loading ? <Spinner color='blue' /> :
-                // this.state.user ?
-                // null :
+                this.state.user ?
+                <SignedIn dimensions={this.state.dimensions} /> :
                 <SignedOut dimensions={this.state.dimensions} />
             }
             </Root>
