@@ -55,6 +55,7 @@ class App extends Component {
     }
 
     render() {
+        console.ignoredYellowBox = [ 'Setting a timer' ];
         return (
             <Root onLayout={this.onLayout}>
             {
