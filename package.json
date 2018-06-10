@@ -16,6 +16,7 @@
     "react-native-fbsdk": "^0.7.0",
     "react-navigation": "^2.0.4",
     "sha256": "^0.2.0",
+    "tipsi-stripe": "^5.2.1",
     "xcode": "^1.0.0"
   },
   "devDependencies": {
