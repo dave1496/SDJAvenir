@@ -28,7 +28,7 @@ class Signup extends Component {
     }
 
     handleChange(key, val) {
-        let new_state = {...this.state};
+        let new_state = {};
         new_state[key] = val
         this.setState(new_state);
     }
@@ -37,9 +37,8 @@ class Signup extends Component {
         const { nom, prenom, mail, pass, passRepeat } = this.state;
         this.setState({ loading: true });
         if (pass === passRepeat) {
-            firebase.auth().languageCode = 'fr_FR';
-            firebase.auth().createUserWithEmailAndPassword(mail, pass).then(user => {
-                firebase.database().ref(`users/${user.uid}`).set({
+            firebase.auth().createUserWithEmailAndPassword(mail, pass).then(data => {
+                firebase.database().ref(`users/${data.user.uid}`).set({
                     displayName: `${nom} ${prenom}`,
                     email: mail,
                     amount: 0,
