@@ -7,12 +7,12 @@ import { Button } from 'native-base';
 import Style from '../styles/moneyButton.style';
 
 const MoneyButton = props => (
-  <Button
-    style={Style.button}
-    onPress={props.add}
-  >
-    <Image source={props.image} style={Style.image} />
-  </Button>
+	<Button
+		style={Style.button}
+		onPress={props.add}
+	>
+		<Image source={props.image} style={Style.image} />
+	</Button>
 );
 
 export default MoneyButton;

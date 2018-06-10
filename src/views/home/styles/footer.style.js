@@ -1,19 +1,14 @@
 // Style.js
 
 const text = {
-  fontSize: 20,
-  paddingTop: 5
+	fontSize: 20,
+	paddingTop: 5,
+	color: "#FFF",
 };
-
-const paypalText = {
-  fontSize: 20,
-  paddingTop: 5,
-  color: '#FFFFFF',
-}
 
 const button = {
-  flexDirection: 'row',
-  alignItems: 'center',
+	flexDirection: 'row',
+	alignItems: 'center',
 };
 
-export default { text, paypalText, button };
+export default { text, button };
