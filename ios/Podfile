@@ -17,6 +17,5 @@ target 'SDJAvenir' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Performance'
   pod 'Firebase/Storage'
-  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
 
 end

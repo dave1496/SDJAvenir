@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { Container, Toast } from 'native-base';
+import stripe from 'tipsi-stripe'
 
 // Firebase
 import firebase from '../../general/firebase/';
@@ -10,6 +11,9 @@ import firebase from '../../general/firebase/';
 import BackgroundImage from '../../general/backgroundImage/';
 import Content from './containers/content.container';
 import Footer from './components/footer.component';
+
+// Secrets
+import { STRIPE_PUBLISHABLE_KEY, APPLE_PAY_MERCHANT_ID } from '../../config/secrets';
 
 class Home extends Component {
 	constructor(props) {
@@ -23,6 +27,7 @@ class Home extends Component {
 		this.addAmount = this.addAmount.bind(this);
 		this.resetAmount = this.resetAmount.bind(this);
 		this.editAmount = this.editAmount.bind(this);
+		this.processPayment = this.processPayment.bind(this);
 		this.showError = this.showError.bind(this);
 	}
 
@@ -34,6 +39,11 @@ class Home extends Component {
 			loading: false,
 			});
 		});
+		stripe.setOptions({
+			publishableKey: STRIPE_PUBLISHABLE_KEY,
+			merchantId: APPLE_PAY_MERCHANT_ID,
+			androidPayMode: 'test',
+		})
 	}
 
 	addAmount(amount) {
@@ -49,6 +59,10 @@ class Home extends Component {
 		this.setState({ amount });
 		const { uid } = firebase.auth().currentUser;
 		firebase.database().ref(`users/${uid}`).update({ amount });
+	}
+
+	processPayment() {
+		
 	}
 
 	showError(msg) {
@@ -73,7 +87,7 @@ class Home extends Component {
 					loading={this.state.loading}
 				/>
 				<Footer
-					processPayment={null}
+					processPayment={this.processPayment}
 				/>
 			</Container>
 		);
