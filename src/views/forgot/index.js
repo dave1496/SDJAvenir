@@ -23,52 +23,47 @@ class Forgot extends Component {
 	}
 
 	handleChange(key, val) {
-    let new_state = {...this.state};
-    new_state[key] = val
-    this.setState(new_state);
-  }
+		let new_state = {};
+		new_state[key] = val
+		this.setState(new_state);
+	}
 
-  handleSubmit() {
+	handleSubmit() {
 		const mail = this.state.mail;
 		this.setState({ loading: true });
-		firebase.auth().languageCode = 'fr_FR';
-    firebase.auth().sendPasswordResetEmail(mail)
-    .then(user => {
-      this.setState({ loading: false });
-    })
-    .catch(error => {
-      this.showError(error.message);
-    });
-    this.props.navigation.navigate('Confirm');
-  }
+		firebase.auth().sendPasswordResetEmail(mail)
+		.then(user => {
+			this.setState({ loading: false });
+			this.props.navigation.navigate('Confirm');
+		})
+		.catch(error => this.showError(error.message));
+	}
 	
-  showError(message) {
-    this.setState({ loading: false });
-    Toast.show({
-      text: message,
-      position: "bottom",
-      buttonText: "OK",
-    });
-  }
+	showError(message) {
+		this.setState({ loading: false });
+		Toast.show({
+			text: message,
+			position: "bottom",
+			buttonText: "OK",
+		});
+	}
 		
 
-  render() {
-    return (
-      <Container>
-        <BackgroundImage dimensions={this.props.screenProps.dimensions} />
-        <Content padder>
-          <Form
-            mail={this.state.mail}
-            change={this.handleChange}
-            submit={this.handleSubmit}
-            loading={this.state.loading}
-          />
-        </Content>
-      </Container>
-    );
-  }
-	
+	render() {
+		return (
+			<Container>
+				<BackgroundImage dimensions={this.props.screenProps.dimensions} />
+				<Content padder>
+					<Form
+						mail={this.state.mail}
+						change={this.handleChange}
+						submit={this.handleSubmit}
+						loading={this.state.loading}
+					/>
+				</Content>
+			</Container>
+		);
+	}
 }
-
 
 export default Forgot;
