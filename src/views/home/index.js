@@ -72,18 +72,21 @@ class Home extends Component {
 			if (supportsApplePay) {
 				stripe.canMakeApplePayPayments({ networks: ['american_express', 'discover', 'master_card', 'visa'] }).then(canMakePayments => {
 					if (canMakePayments) {
-						stripe.paymentRequestWithApplePay()
-						.catch(() => {
+						const options = {
+							label: "SDJ Tsedaka",
+							amount: `${this.state.amount}`,
+						};
+						stripe.paymentRequestWithApplePay(options).then(token => {
+							alert(JSON.stringify(token));
+						}).catch(() => {
 							this.cardPayment();
 						});
-					} else {
-						this.cardPayment();
-					}
-				}).catch(() => this.showError("An error has occured"));
+					} else this.cardPayment();
+				}).catch(() => this.cardPayment());
 			} else {
 				this.cardPayment();
 			}
-		}).catch(() => this.showError("An error has occured"));
+		}).catch(() => this.cardPayment());
 	}
 
 	androidProcessPayment() {
