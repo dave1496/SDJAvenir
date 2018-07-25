@@ -14,7 +14,7 @@ import Content from './containers/content.container';
 import Footer from './components/footer.component';
 
 // Secrets
-import { STRIPE_PUBLISHABLE_KEY, APPLE_PAY_MERCHANT_ID, BACK_URL } from '../../config/secrets';
+import { STRIPE_PUBLISHABLE_KEY, STRIPE_KEY, APPLE_PAY_MERCHANT_ID, BACK_URL } from '../../config/secrets';
 
 class Home extends Component {
 	constructor(props) {
@@ -33,6 +33,7 @@ class Home extends Component {
 		this.androidProcessPayment = this.androidProcessPayment.bind(this);
 		this.cardPayment = this.cardPayment.bind(this);
 		this.processPayment = this.processPayment.bind(this);
+		this.processCharges = this.processCharges.bind(this);
 		this.showError = this.showError.bind(this);
 	}
 
@@ -48,6 +49,7 @@ class Home extends Component {
 		});
 		stripe.setOptions({
 			publishableKey: STRIPE_PUBLISHABLE_KEY,
+			secretKey: STRIPE_KEY,
 			merchantId: APPLE_PAY_MERCHANT_ID,
 			androidPayMode: 'test',
 		})
@@ -74,16 +76,10 @@ class Home extends Component {
 				stripe.canMakeApplePayPayments({ networks: ['american_express', 'discover', 'master_card', 'visa'] }).then(canMakePayments => {
 					if (canMakePayments) {
 						const { amount } = this.state;
-						const options = {
-							amount,
-							label: "SDJ Tsedaka",
-						};
-						stripe.paymentRequestWithApplePay(options).then(token => {
-							axios.post(`${BACK_URL}/processPayment`, { token, amount })
-							alert(JSON.stringify(token));
-						}).catch(() => {
-							this.cardPayment();
-						});
+						const options = { amount, label: "SDJ Tsedaka" };
+						stripe.paymentRequestWithApplePay(options)
+						.then(token => this.processCharges(token))
+						.catch(() => this.cardPayment());
 					} else this.cardPayment();
 				}).catch(() => this.cardPayment());
 			} else {
@@ -103,17 +99,27 @@ class Home extends Component {
 				email: this.state.email,
 			},
 		}
-		stripe.paymentRequestWithCardForm(options).then(token => {
-			
-		}).catch(() => this.showError("An error has occured"));
+		stripe.paymentRequestWithCardForm(options)
+		.then(token => this.processCharges(token))
+		.catch(() => this.showError("An error has occured"));
 	}
 
 	processPayment() {
-		if (Platform.OS === 'ios') {
-			this.appleProcessPayment();
+		if (this.state.amount < 5) {
+			this.showError("Il faut que le montant soit supérieur à 5 euros");
 		} else {
-			this.androidProcessPayment();
+			if (Platform.OS === 'ios') this.appleProcessPayment();
+			else this.androidProcessPayment();
 		}
+	}
+
+	processCharges(token) {
+		axios.post(`${BACK_URL}/processPayment`, {
+			token: token.tokenId,
+			amount: this.state.amount*100,
+		})
+		.then(() => alert("OK"))
+		.catch(() => this.showError("Erreur dans le paiement, veuillez réessayer"));
 	}
 
 	showError(msg) {
