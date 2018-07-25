@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.4.11",
+    "axios": "^0.18.0",
     "firebase": "^5.0.4",
     "native-base": "^2.4.5",
     "plist": "^3.0.1",

@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { Container, Toast } from 'native-base';
-import stripe from 'tipsi-stripe'
+import stripe from 'tipsi-stripe';
+import axios from 'axios';
 
 // Firebase
 import firebase from '../../general/firebase/';
@@ -13,7 +14,7 @@ import Content from './containers/content.container';
 import Footer from './components/footer.component';
 
 // Secrets
-import { STRIPE_PUBLISHABLE_KEY, APPLE_PAY_MERCHANT_ID } from '../../config/secrets';
+import { STRIPE_PUBLISHABLE_KEY, APPLE_PAY_MERCHANT_ID, BACK_URL } from '../../config/secrets';
 
 class Home extends Component {
 	constructor(props) {
@@ -72,11 +73,13 @@ class Home extends Component {
 			if (supportsApplePay) {
 				stripe.canMakeApplePayPayments({ networks: ['american_express', 'discover', 'master_card', 'visa'] }).then(canMakePayments => {
 					if (canMakePayments) {
+						const { amount } = this.state;
 						const options = {
+							amount,
 							label: "SDJ Tsedaka",
-							amount: `${this.state.amount}`,
 						};
 						stripe.paymentRequestWithApplePay(options).then(token => {
+							axios.post(`${BACK_URL}/processPayment`, { token, amount })
 							alert(JSON.stringify(token));
 						}).catch(() => {
 							this.cardPayment();
@@ -101,7 +104,7 @@ class Home extends Component {
 			},
 		}
 		stripe.paymentRequestWithCardForm(options).then(token => {
-			alert(JSON.stringify(token));
+			
 		}).catch(() => this.showError("An error has occured"));
 	}
 
