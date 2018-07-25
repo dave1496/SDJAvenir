@@ -70,9 +70,12 @@ class Home extends Component {
 	appleProcessPayment() {
 		stripe.deviceSupportsApplePay().then(supportsApplePay => {
 			if (supportsApplePay) {
-				stripe.canMakeApplePayPayments(['american_express', 'discover', 'master_card', 'visa']).then(canMakePayments => {
+				stripe.canMakeApplePayPayments({ networks: ['american_express', 'discover', 'master_card', 'visa'] }).then(canMakePayments => {
 					if (canMakePayments) {
-						// stripe.paymentRequestWithApplePay();
+						stripe.paymentRequestWithApplePay()
+						.catch(() => {
+							this.cardPayment();
+						});
 					} else {
 						this.cardPayment();
 					}
