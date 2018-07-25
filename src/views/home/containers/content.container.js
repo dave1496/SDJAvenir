@@ -45,8 +45,7 @@ class Content extends Component {
         <ButtonGrid 
           add={this.props.addAmount}
         />
-      <Tsedaka/>
-
+        <Tsedaka/>
       </NBContent>
     );
   }
