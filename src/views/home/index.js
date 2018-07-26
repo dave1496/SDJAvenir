@@ -14,7 +14,7 @@ import Content from './containers/content.container';
 import Footer from './components/footer.component';
 
 // Secrets
-import { STRIPE_PUBLISHABLE_KEY, STRIPE_KEY, APPLE_PAY_MERCHANT_ID, BACK_URL } from '../../config/secrets';
+import { STRIPE_PUBLISHABLE_KEY, APPLE_PAY_MERCHANT_ID, BACK_URL } from '../../config/secrets';
 
 class Home extends Component {
 	constructor(props) {
