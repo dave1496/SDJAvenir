@@ -34,6 +34,7 @@ class Home extends Component {
 		this.cardPayment = this.cardPayment.bind(this);
 		this.processPayment = this.processPayment.bind(this);
 		this.processCharges = this.processCharges.bind(this);
+		this.saveDonation = this.saveDonation.bind(this);
 		this.showError = this.showError.bind(this);
 	}
 
@@ -118,7 +119,18 @@ class Home extends Component {
 			token: token.tokenId,
 			amount: this.state.amount*100,
 		})
-		.then(() => alert("OK"))
+		.then(() => this.saveDonation())
+		.catch(() => this.showError("Erreur dans le paiement, veuillez réessayer"));
+	}
+
+	saveDonation() {
+		firebase.database().ref("/donations").push().set({
+			date: new Date().toString(),
+			userId: firebase.auth().currentUser.uid,
+			amount: this.state.amount,
+			type: "CARTE BANCAIRE"
+		})
+		.then(() => alert("Le paiement a été réalisé avec succès. Vous pouvez retrouver votre reçu cerfa dans l'historique de vos dons."))
 		.catch(() => this.showError("Erreur dans le paiement, veuillez réessayer"));
 	}
 
