@@ -50,7 +50,6 @@ class Home extends Component {
 		});
 		stripe.setOptions({
 			publishableKey: STRIPE_PUBLISHABLE_KEY,
-			secretKey: STRIPE_KEY,
 			merchantId: APPLE_PAY_MERCHANT_ID,
 			androidPayMode: 'test',
 		})
