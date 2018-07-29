@@ -13,6 +13,9 @@ import BackgroundImage from '../../../general/backgroundImage/';
 // Style
 import Style from '../styles/settings.style';
 
+// Config
+import { CERFA_URL } from '../../../config/secrets';
+
 class History extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +63,7 @@ class History extends Component {
                       alert("Veuillez renseigner vos coordonnées personnelles");
                       this.props.navigation.goBack();
                     } else {
-                      Linking.openURL(`http://autoschool.altervista.org/cerfa/cerfa.php?ref=R${6000+this.state.donations.length}&name=${userData.displayName}&address=${userData.address}&postalCode=${userData.postalCode}&city=${userData.city}&amount=${donation.amount}&date=${new Date(donation.date).getDate()}/${new Date(donation.date).getMonth()+1}/${new Date(donation.date).getFullYear()}&paymentType=${donation.type}&sign=${sha256(`BarYohai33R${6000+this.state.donations.length}${userData.displayName}${userData.address}${userData.postalCode}${userData.city}${donation.amount}${new Date(donation.date).getDate()}/${new Date(donation.date).getMonth()+1}/${new Date(donation.date).getFullYear()}${donation.type}`)}`)
+                      Linking.openURL(`${CERFA_URL}?ref=R${6000+this.state.donations.length}&name=${userData.displayName}&address=${userData.address}&postalCode=${userData.postalCode}&city=${userData.city}&amount=${donation.amount}&date=${new Date(donation.date).getDate()}/${new Date(donation.date).getMonth()+1}/${new Date(donation.date).getFullYear()}&paymentType=${donation.type}&sign=${sha256(`BarYohai33R${6000+this.state.donations.length}${userData.displayName}${userData.address}${userData.postalCode}${userData.city}${donation.amount}${new Date(donation.date).getDate()}/${new Date(donation.date).getMonth()+1}/${new Date(donation.date).getFullYear()}${donation.type}`)}`)
                     }
                   }}>
                     <Icon style={{ color: '#000000' }} name='document' />
